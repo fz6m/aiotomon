@@ -18,6 +18,12 @@
     pip install git+https://github.com/fz6m/aiotomon.git@master
 ```
 
+## Upgrade
+
+```bash
+    pip install --upgrade git+https://github.com/fz6m/aiotomon.git@master
+```
+
 ## Plugin example
 
 ```python
