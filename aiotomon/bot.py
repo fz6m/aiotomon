@@ -12,6 +12,7 @@ from .message import identify, to_message
 from .exceptions import ResponseError, NetworkError, OperationError
 
 import websockets as ws
+from websockets import ConnectionClosed
 
 try:
     import ujson as json
@@ -116,17 +117,39 @@ class AioTomon(AsyncApi):
 
         self.log.info('正在开启 ws 连接...')
 
-        async with ws.connect(self.SERVER_URI) as websocket:
-            self._ws = websocket
+        while True:
             try:
-                await asyncio.wait_for(self._initial(), self._api._timeout_sec)
-            except asyncio.TimeoutError:
-                self.log.error('连接超时，初始化失败！')
-                raise NetworkError('Connection error, initialization failed')
+                await self._ws_connect()
+            except ConnectionResetError as e:
+                self.log.error(e)
+                self.log.warning('连接远程服务器失败，3 秒后尝试重连...')
+                await asyncio.sleep(3)
 
-            await self._ws_startup()
 
-            await self._handle_ws_event()
+    async def _ws_connect(self) -> None:
+        async with ws.connect(self.SERVER_URI) as websocket:
+            while True:
+                try:
+
+                    self._ws = websocket
+                    try:
+                        await asyncio.wait_for(self._initial(), self._api._timeout_sec)
+                    except asyncio.TimeoutError:
+                        self.log.error('连接超时，初始化失败！')
+                        self.log.warning(' 3 秒后尝试重新初始化')
+                        await asyncio.sleep(3)
+                        break
+
+                    await self._ws_startup()
+
+                    await self._handle_ws_event()
+
+                except ConnectionClosed as e:
+                    self.log.error(f'远程 ws 断开（错误码  {e.code} ）')
+                    self.log.warning(' 3 秒后尝试重连远程 ws ')
+                    await asyncio.sleep(3)
+                    break
+
 
     async def call_action(self, action: str, **params) -> Any:
         await run_async_funcs(self._send_before, **params)
