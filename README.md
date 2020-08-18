@@ -6,7 +6,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.7%20%2B-informational)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-![Version](https://img.shields.io/badge/version-1.3-orange)
+![Version](https://img.shields.io/badge/version-1.4-orange)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![License](https://img.shields.io/github/license/fz6m/aiotomon)
 
