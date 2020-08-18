@@ -129,7 +129,7 @@ class AioTomon(AsyncApi):
     async def _ping(self) -> None:
         while True:
             try:
-                self._ws.send(json.dumps({ 'op': Op.HEARTBEAT }))
+                await self._ws.send(json.dumps({ 'op': Op.HEARTBEAT }))
                 await asyncio.sleep(10)
             except:
                 break
