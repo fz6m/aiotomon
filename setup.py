@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='aiotomon',
-    version='1.0',
+    version='1.1',
     url='https://github.com/fz6m/aiotomon',
     license='MIT License',
     author='fz6m',
