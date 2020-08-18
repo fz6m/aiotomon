@@ -4,9 +4,13 @@ class Op:
 
     DISPATCH = 0
 
+    HEARTBEAT = 1
+
     IDENTIFY = 2
 
     HELLO = 3
+
+    HEARTBEAT_ACK = 4
 
 
 class Channel:

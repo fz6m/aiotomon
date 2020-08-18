@@ -3,7 +3,7 @@ import asyncio
 from collections import defaultdict
 from typing import Optional, Any, Dict, Iterable, Awaitable, Callable, List
 
-from .config import Nonce as No
+from .config import Nonce as No, Op
 
 
 class Event(dict):
@@ -12,6 +12,10 @@ class Event(dict):
     def from_payload(payload: Dict[str, Any]) -> 'Optional[Event]':
         try:
             resp = Event(payload)
+
+            if resp.op == Op.HEARTBEAT_ACK:
+                return None
+
             _ = resp.op, resp.e, resp.d
 
             # ! Ugly way, needs improvement

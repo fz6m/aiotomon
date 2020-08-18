@@ -126,6 +126,15 @@ class AioTomon(AsyncApi):
                 await asyncio.sleep(3)
 
 
+    async def _ping(self) -> None:
+        while True:
+            try:
+                self._ws.send(json.dumps({ 'op': Op.HEARTBEAT }))
+                await asyncio.sleep(10)
+            except:
+                break
+
+
     async def _ws_connect(self) -> None:
         async with ws.connect(self.SERVER_URI) as websocket:
             while True:
@@ -141,6 +150,8 @@ class AioTomon(AsyncApi):
                         break
 
                     await self._ws_startup()
+
+                    asyncio.create_task(self._ping())
 
                     await self._handle_ws_event()
 
