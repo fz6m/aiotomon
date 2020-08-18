@@ -23,6 +23,8 @@ class Channel:
 
     GET_USER_INFO = '/users/@me'
 
+    GET_CHANNEL_USER_INFO = '/guilds/{guildId}/members/{userId}'
+
 
 E = {
 

@@ -8,3 +8,5 @@ class ChannelApi:
     send_text = 'send_text'
 
     get_user_info = 'get_user_info'
+
+    get_channel_user_info = 'get_channel_user_info'

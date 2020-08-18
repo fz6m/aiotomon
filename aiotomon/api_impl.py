@@ -48,7 +48,8 @@ class HttpApi(AsyncApi):
             ChannelApi.send_image: self._action_send_image,
             ChannelApi.send_text: self._post(Channel.SEND_TEXT.format(channelId=kwargs.get('cid'))),
             # GET
-            ChannelApi.get_user_info: self._get(Channel.GET_USER_INFO)
+            ChannelApi.get_user_info: self._get(Channel.GET_USER_INFO),
+            ChannelApi.get_channel_user_info: self._get(Channel.GET_CHANNEL_USER_INFO.format(guildId=kwargs.get('gid'), userId=kwargs.get('uid')))
         }
 
         try:
@@ -128,8 +129,7 @@ class HttpApi(AsyncApi):
         '''
         return functools.partial(self._action_general, url_path)
 
-    async def _get_data(self, url_path: str,
-                        params: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def _get_data(self, url_path: str, **params) -> Dict[str, Any]:
         async with aiohttp.ClientSession() as session:
             async with session.get(self._api_root + url_path,
                                    params=params,

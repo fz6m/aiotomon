@@ -41,3 +41,16 @@ class AsyncApi:
         获取登录 bot 自身信息
         '''
         ...
+
+    def get_channel_user_info(
+        self, *,
+        gid: str,
+        uid: str
+    ) -> Awaitable[Dict[str, Any]]:
+        '''
+        获取某个群组的用户的个人信息
+
+        :gid: 群组 id ，应为字符串
+        :uid: 用户 id ，应为字符串
+        '''
+        ...

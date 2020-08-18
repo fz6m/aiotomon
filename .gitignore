@@ -4,6 +4,9 @@ __pycache__
 /README2.md
 
 .vscode
+/api
 /image
-api
 /test
+/aiotomon.egg-info
+/build
+/dist
